@@ -2,14 +2,12 @@ export default class Cell {
   constructor(x, y, isAlive) {
     this._x = x;
     this._y = y;
-
-    this.a = isAlive;
-    this.b = false;
+    this._isAlive = isAlive;
   }
 
   get x()       { return this._x; }
   get y()       { return this._y; }
-  isAlive(slot) { return this[slot]; }
+  get isAlive() { return this._isAlive; }
 
   is(other) {
     return this.x === other.x &&
@@ -21,6 +19,6 @@ export default class Cell {
   }
 
   toString() {
-    return `cell(x: ${this.x}, y: ${this.y})`;
+    return `cell(x: ${this.x}, y: ${this.y}, isAlive: ${this.isAlive})`;
   }
 }

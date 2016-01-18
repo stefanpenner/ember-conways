@@ -13,19 +13,17 @@ export default class World {
   constructor({ width, height, cells }) {
     this.width = width;
     this.height = height;
-    this.cells = cells; // ensure sorted
-
-    this._current = 'a';
-    this._next    = 'b';
+    this._current = cells; // ensure sorted
+    this._next = cells.map(cell => new Cell(cell.x, cell.y, false));
   }
 
   forEach() {
-    this.cells.forEach(...arguments);
+    this._current.forEach(...arguments);
   }
 
   advance() {
-    this.forEach(cell => {
-      cell[this._next] = this.willLive(cell);
+    this.forEach((cell, i) => {
+      this._next[i]._isAlive = this.willLive(cell);
     });
 
     let tmp = this._current;
@@ -37,7 +35,7 @@ export default class World {
     let {
         width,
         height,
-        cells
+        _current
     } = this;
 
     if (x >= width  ||
@@ -47,7 +45,7 @@ export default class World {
       return 0;
     }
 
-    return cells[y * width + x].isAlive(this._current) ? 1 : 0;
+    return _current[y * width + x].isAlive ? 1 : 0;
   }
 
   willLive(cell) {
