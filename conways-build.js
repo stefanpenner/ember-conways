@@ -1,6 +1,5 @@
 /*jshint node:true*/
 /* global require, module */
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var stew = require('broccoli-stew');
 var concat = require('broccoli-concat');
 var babel = require('broccoli-babel-transpiler');
@@ -25,7 +24,9 @@ module.exports = function() {
 
   return merge([
     find(es6, { destDir: 'es6' }),
+
     amd,
+
     concat(merge([
       stew.npm.main('loader.js'),
       amd
