@@ -1,5 +1,6 @@
 import fate, { LIVE, DIE as DEAD } from './fate';
 import Cell from './cell';
+const set = typeof Ember ? Ember.set : function(obj,key,value) { return obj[key] = value; };
 
 export function alive(width, height, cells) {
   let result = new Array(width * height);
@@ -46,7 +47,7 @@ export default class World {
 
   advance() {
     this.forEach(cell => {
-      Ember.set(cell, 'isAlive', cell[this._next] = this.willLive(cell));
+      set(cell, 'isAlive', cell[this._next] = this.willLive(cell));
     });
 
     let tmp = this._current;
