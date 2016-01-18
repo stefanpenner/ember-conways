@@ -402,3 +402,28 @@ test('4. Any dead cell with exactly three live neighbours becomes a live cell, a
         DEAD, DEAD, DEAD
         ));
 });
+
+
+test('multiple transitoins', function(assert) {
+  let world = world3x3(
+        DEAD, DEAD, DEAD,
+        DEAD, LIVE, DEAD,
+        DEAD, DEAD, DEAD
+        );
+
+  world.advance();
+
+  assertState(assert, world, world3x3(
+        DEAD, DEAD, DEAD,
+        DEAD, DEAD, DEAD,
+        DEAD, DEAD, DEAD
+        ));
+
+  world.advance();
+
+  assertState(assert, world, world3x3(
+        DEAD, DEAD, DEAD,
+        DEAD, DEAD, DEAD,
+        DEAD, DEAD, DEAD
+        ));
+});

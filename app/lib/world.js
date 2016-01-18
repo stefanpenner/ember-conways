@@ -1,5 +1,20 @@
-import fate, { LIVE } from './fate';
+import fate, { LIVE, DIE as DEAD } from './fate';
 import Cell from './cell';
+
+export function alive(width, height, ...cells) {
+  var result = new Array(width * height);
+
+  for (var i = 0; i < result.length; i++) {
+    result[i] = DEAD;
+  }
+
+  for (var i = 0; i < cells.length; i++) {
+    let [x,y] = cells[i];
+    result[y * width + x] = LIVE;
+  }
+
+  return result;
+}
 
 export function world(width, height, ..._cells) {
   let cells = _cells.map((state, index) => {
@@ -19,6 +34,10 @@ export default class World {
 
   forEach() {
     this._current.forEach(...arguments);
+  }
+
+  get length() {
+    return this._current.length;
   }
 
   advance() {
