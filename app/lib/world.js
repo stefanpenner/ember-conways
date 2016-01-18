@@ -1,6 +1,6 @@
 import fate, { LIVE, DIE as DEAD } from './fate';
 import Cell from './cell';
-const set = typeof Ember ? Ember.set : function(obj,key,value) { return obj[key] = value; };
+const set = typeof Ember !== 'undefined' ? Ember.set : function(obj,key,value) { return obj[key] = value; };
 
 export function alive(width, height, cells) {
   let result = new Array(width * height);
