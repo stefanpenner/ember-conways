@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import { world, alive } from 'conways/lib/world';
-import { LIVE, DIE as DEAD } from 'conways/lib/fate';
 
 export default Ember.Route.extend({
   setupController(controller) {
@@ -9,10 +8,10 @@ export default Ember.Route.extend({
     function foo() {
       controller.model.advance();
       controller.notifyPropertyChange('model');
-      self.requestAnimationFrame(foo);
+      requestAnimationFrame(foo);
     }
 
-    self.requestAnimationFrame(foo);
+    requestAnimationFrame(foo);
   },
 
   model() {
