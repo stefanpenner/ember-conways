@@ -5,15 +5,20 @@ export default class Cell {
     this._isAlive = isAlive;
   }
 
+  get x()       { return this._x; }
+  get y()       { return this._y; }
+  get isAlive() { return this._isAlive; }
+
   is(other) {
-    return this._x === other._x && this._y === other._y;
+    return this.x === other.x &&
+           this.y === other.y;
   }
 
-  isAlive() {
-    return !!this._isAlive;
+  get key() {
+    return `${this.x}x${this.y}`;
   }
 
   toString() {
-    return `cell( x: ${this._x}, y: ${this._y}, alive: ${this._isAlive} )`;
+    return `cell( x: ${this.x}, y: ${this.y}, alive: ${this.isAlive} )`;
   }
 }
