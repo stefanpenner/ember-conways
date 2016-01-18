@@ -41,6 +41,14 @@ export default class World {
     }
   }
 
+  map(cb) {
+    let results = new Array(this.cells.length);
+    for (let i = 0; i < this.cells.length; i++) {
+      results[i] = cb(this.cells[i], i);
+    }
+    return results;
+  }
+
   get length() {
     return this.cells.length;
   }
