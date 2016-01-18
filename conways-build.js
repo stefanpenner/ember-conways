@@ -9,6 +9,7 @@ var merge = require('broccoli-merge-trees');
 
 var moduleResolver = require('./lib/module-resolver'); // should come from the loader.js
 var babelOptions = {
+  moduleId: true,
   modules: 'amdStrict',
   resolveModuleSource: moduleResolver
 };
