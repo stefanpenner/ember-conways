@@ -4,9 +4,12 @@ import Cell from 'conways/lib/cell';
 import World from 'conways/lib/world';
 import fate, { LIVE, DIE } from 'conways/lib/fate';
 
-function world(...cells) {
-  return new World({ cells });
+function world(width, height, ...cells) {
+  return new World({ width, height, cells });
 }
+
+const world3x3 = world.bind(null, 3, 3);
+const world4x4 = world.bind(null, 4, 4);
 
 function alive(x, y) {
   return new Cell(x, y, true);
@@ -29,9 +32,9 @@ function assertShouldDie(assert, cell, world, message) {
 }
 
 module('Conways rules');
-test('sum', function(assert) {
+test('sum (3x3)', function(assert) {
   assert.equal(
-    world(
+    world3x3(
       dead(0,0),  dead(0,1),  dead(0,2),
       dead(1,0),  dead(1,1),  dead(1,2),
       dead(2,0),  dead(2,1),  dead(2,2)
@@ -39,7 +42,7 @@ test('sum', function(assert) {
   );
 
   assert.equal(
-    world(
+    world3x3(
       alive(0,0),  dead(0,1),  dead(0,2),
        dead(1,0),  dead(1,1),  dead(1,2),
        dead(2,0),  dead(2,1),  dead(2,2)
@@ -47,19 +50,125 @@ test('sum', function(assert) {
   );
 
   assert.equal(
-    world(
-      alive(0,0),  alive(0,1),  dead(0,2),
+    world3x3(
+      alive(0,0), alive(0,1),  dead(0,2),
        dead(1,0),  dead(1,1),  dead(1,2),
        dead(2,0),  dead(2,1),  dead(2,2)
     ).sum(cell(1, 1)), 2
   );
 
   assert.equal(
-    world(
+    world3x3(
       alive(0,0), alive(0,1), alive(0,2),
        dead(1,0),  dead(1,1),  dead(1,2),
        dead(2,0),  dead(2,1),  dead(2,2)
     ).sum(cell(1, 1)), 3
+  );
+
+  assert.equal(
+    world3x3(
+      dead(0,0),  dead(0,1),  dead(0,2),
+      dead(1,0),  dead(1,1),  dead(1,2),
+      dead(2,0),  dead(2,1),  dead(2,2)
+    ).sum(cell(0, 0)), 0
+  );
+
+  assert.equal(
+    world3x3(
+      dead(0,0), alive(0,1),  dead(0,2),
+      dead(1,0),  dead(1,1),  dead(1,2),
+      dead(2,0), alive(2,1),  dead(2,2)
+    ).sum(cell(0, 0)), 1
+  );
+
+  assert.equal(
+    world3x3(
+      dead(0,0), alive(0,1),  dead(0,2),
+     alive(1,0),  dead(1,1), alive(1,2),
+      dead(2,0), alive(2,1),  dead(2,2)
+    ).sum(cell(0, 0)), 2
+  );
+
+  assert.equal(
+    world3x3(
+      dead(0,0), alive(0,1),  dead(0,2),
+     alive(1,0), alive(1,1),  dead(1,2),
+      dead(2,0), alive(2,1),  dead(2,2)
+    ).sum(cell(0, 0)), 3
+  );
+});
+
+test('sum (4x4)', function(assert) {
+  assert.equal(
+    world3x3(
+      dead(0,0),  dead(0,1),  dead(0,2),  dead(0,3),
+      dead(1,0),  dead(1,1),  dead(1,2),  dead(1,3),
+      dead(2,0),  dead(2,1),  dead(2,2),  dead(2,3),
+      dead(3,0),  dead(3,1),  dead(3,2),  dead(3,3)
+    ).sum(cell(1, 1)), 0
+  );
+
+  assert.equal(
+    world3x3(
+      alive(0,0),  dead(0,1),  dead(0,2),  dead(0,3),
+       dead(1,0),  dead(1,1),  dead(1,2),  dead(1,3),
+       dead(2,0),  dead(2,1),  dead(2,2),  dead(2,3),
+       dead(3,0),  dead(3,1),  dead(3,2),  dead(3,3)
+    ).sum(cell(1, 1)), 1
+  );
+
+  assert.equal(
+    world3x3(
+      alive(0,0), alive(0,1),  dead(0,2),  dead(0,3),
+       dead(1,0),  dead(1,1),  dead(1,2),  dead(1,3),
+       dead(2,0),  dead(2,1),  dead(2,2),  dead(2,3),
+       dead(3,0),  dead(3,1),  dead(3,2),  dead(3,3)
+    ).sum(cell(1, 1)), 2
+  );
+
+  assert.equal(
+    world3x3(
+      alive(0,0), alive(0,1), alive(0,2),  dead(0,3),
+       dead(1,0),  dead(1,1),  dead(1,2),  dead(1,3),
+       dead(2,0),  dead(2,1),  dead(2,2),  dead(2,3),
+       dead(3,0),  dead(3,1),  dead(3,2),  dead(3,3)
+    ).sum(cell(1, 1)), 3
+  );
+
+  assert.equal(
+    world4x4(
+      dead(0,0),  dead(0,1),  dead(0,2),  dead(0,3),
+      dead(1,0),  dead(1,1),  dead(1,2),  dead(1,3),
+      dead(2,0),  dead(2,1),  dead(2,2),  dead(2,3),
+      dead(3,0),  dead(3,1),  dead(3,2),  dead(3,3)
+    ).sum(cell(0, 0)), 0
+  );
+
+  assert.equal(
+    world4x4(
+      dead(0,0), alive(0,1),  dead(0,2),  dead(0,3),
+      dead(1,0),  dead(1,1),  dead(1,2),  dead(1,3),
+      dead(2,0), alive(2,1),  dead(2,2),  dead(2,3),
+      dead(3,0),  dead(3,1),  dead(3,2),  dead(3,3)
+    ).sum(cell(0, 0)), 1
+  );
+
+  assert.equal(
+    world4x4(
+      dead(0,0), alive(0,1),  dead(0,2),  dead(0,3),
+     alive(1,0),  dead(1,1), alive(1,2),  dead(1,3),
+      dead(2,0), alive(2,1),  dead(2,2),  dead(2,3),
+      dead(3,0),  dead(3,1),  dead(3,2),  dead(3,3)
+    ).sum(cell(0, 0)), 2
+  );
+
+  assert.equal(
+    world4x4(
+      dead(0,0), alive(0,1),  dead(0,2),  dead(0,3),
+     alive(1,0), alive(1,1),  dead(1,2),  dead(1,3),
+      dead(2,0), alive(2,1),  dead(2,2),  dead(2,3),
+      dead(3,0),  dead(3,1),  dead(3,2),  dead(3,3)
+    ).sum(cell(0, 0)), 3
   );
 });
 
@@ -81,19 +190,19 @@ test('fate', function(assert) {
 module('Conways Rules');
 
 test('1. Any live cell with fewer than two live neighbours dies, as if caused by under-population.', function(assert) {
-  assertShouldDie(assert, cell(1, 1), world(
+  assertShouldDie(assert, cell(1, 1), world3x3(
     alive(0,0),  dead(0,1),  dead(0,2),
      dead(1,0), alive(1,1),  dead(1,2),
      dead(2,0),  dead(2,1),  dead(2,2)
   ));
 
-  assertShouldDie(assert, cell(1, 1), world(
+  assertShouldDie(assert, cell(1, 1), world3x3(
      dead(0,0),  dead(0,1),  dead(0,2),
      dead(1,0), alive(1,1),  dead(1,2),
      dead(2,0),  dead(2,1),  dead(2,2)
   ));
 
-  assertShouldDie(assert, cell(1, 1), world(
+  assertShouldDie(assert, cell(1, 1), world3x3(
      dead(0,0),  dead(0,1),  dead(0,2),
      dead(1,0),  dead(1,1),  dead(1,2),
      dead(2,0),  dead(2,1),  dead(2,2)
@@ -101,13 +210,13 @@ test('1. Any live cell with fewer than two live neighbours dies, as if caused by
 });
 
 test('2. Any live cell with two or three live neighbours lives on to the next generation.', function(assert) {
-  shouldBecomeAlive(assert, cell(1, 1), world(
+  shouldBecomeAlive(assert, cell(1, 1), world3x3(
     alive(0,0),  dead(0,1),  dead(0,2),
     alive(1,0), alive(1,1),  dead(1,2),
      dead(2,0),  dead(2,1),  dead(2,2)
   ));
 
-  shouldBecomeAlive(assert, cell(1, 1), world(
+  shouldBecomeAlive(assert, cell(1, 1), world3x3(
     alive(0,0),  dead(0,1),  dead(0,2),
     alive(1,0), alive(1,1),  dead(1,2),
     alive(2,0),  dead(2,1),  dead(2,2)
@@ -115,31 +224,31 @@ test('2. Any live cell with two or three live neighbours lives on to the next ge
 });
 
 test('3. Any live cell with more than three live neighbours dies, as if by over-population.', function(assert) {
-  assertShouldDie(assert, cell(1, 1), world(
+  assertShouldDie(assert, cell(1, 1), world3x3(
     alive(0,0), alive(0,1),  dead(0,2),
     alive(1,0), alive(1,1),  dead(1,2),
     alive(2,0),  dead(2,1),  dead(2,2)
   ));
 
-  assertShouldDie(assert, cell(1, 1), world(
+  assertShouldDie(assert, cell(1, 1), world3x3(
     alive(0,0), alive(0,1),  dead(0,2),
     alive(1,0), alive(1,1),  dead(1,2),
     alive(2,0), alive(2,1),  dead(2,2)
   ));
 
-  assertShouldDie(assert, cell(1, 1), world(
+  assertShouldDie(assert, cell(1, 1), world3x3(
     alive(0,0), alive(0,1), alive(0,2),
     alive(1,0), alive(1,1),  dead(1,2),
     alive(2,0), alive(2,1),  dead(2,2)
   ));
 
-  assertShouldDie(assert, cell(1, 1), world(
+  assertShouldDie(assert, cell(1, 1), world3x3(
     alive(0,0), alive(0,1), alive(0,2),
     alive(1,0), alive(1,1), alive(1,2),
     alive(2,0), alive(2,1),  dead(2,2)
   ));
 
-  assertShouldDie(assert, cell(1, 1), world(
+  assertShouldDie(assert, cell(1, 1), world3x3(
     alive(0,0), alive(0,1), alive(0,2),
     alive(1,0), alive(1,1), alive(1,2),
     alive(2,0), alive(2,1), alive(2,2)
@@ -147,85 +256,85 @@ test('3. Any live cell with more than three live neighbours dies, as if by over-
 });
 
 test('4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.', function(assert) {
-  shouldBecomeAlive(assert, cell(1, 1), world(
+  shouldBecomeAlive(assert, cell(1, 1), world3x3(
     alive(0,0),  dead(0,1),  dead(0,2),
     alive(1,0),  dead(1,1),  dead(1,2),
     alive(2,0),  dead(2,1),  dead(2,2)
   ));
 
-  shouldBecomeAlive(assert ,cell(1, 1), world(
+  shouldBecomeAlive(assert ,cell(1, 1), world3x3(
      dead(0,0), alive(0,1),  dead(0,2),
     alive(1,0),  dead(1,1),  dead(1,2),
     alive(2,0),  dead(2,1),  dead(2,2)
   ));
 
-  shouldBecomeAlive(assert, cell(1, 1), world(
+  shouldBecomeAlive(assert, cell(1, 1), world3x3(
      dead(0,0), alive(0,1),  dead(0,2),
      dead(1,0),  dead(1,1),  dead(1,2),
     alive(2,0), alive(2,1),  dead(2,2)
   ));
 
-  shouldBecomeAlive(assert, cell(1, 1), world(
+  shouldBecomeAlive(assert, cell(1, 1), world3x3(
      dead(0,0), alive(0,1), alive(0,2),
      dead(1,0),  dead(1,1),  dead(1,2),
      dead(2,0), alive(2,1),  dead(2,2)
   ));
 
-  shouldBecomeAlive(assert, cell(1, 1), world(
+  shouldBecomeAlive(assert, cell(1, 1), world3x3(
      dead(0,0),  dead(0,1), alive(0,2),
      dead(1,0),  dead(1,1), alive(1,2),
      dead(2,0), alive(2,1),  dead(2,2)
   ));
 
-  shouldBecomeAlive(assert, cell(1, 1), world(
+  shouldBecomeAlive(assert, cell(1, 1), world3x3(
      dead(0,0),  dead(0,1), alive(0,2),
      dead(1,0),  dead(1,1), alive(1,2),
      dead(2,0),  dead(2,1), alive(2,2)
   ));
 
-  shouldBecomeAlive(assert, cell(1, 1), world(
+  shouldBecomeAlive(assert, cell(1, 1), world3x3(
     alive(0,0),  dead(0,1), alive(0,2),
      dead(1,0),  dead(1,1), dead(1,2),
      dead(2,0),  dead(2,1), alive(2,2)
   ));
 
-  shouldBecomeAlive(assert, cell(1, 1), world(
+  shouldBecomeAlive(assert, cell(1, 1), world3x3(
     alive(0,0),  dead(0,1), dead(0,2),
      dead(1,0),  dead(1,1), dead(1,2),
     alive(2,0),  dead(2,1), alive(2,2)
   ));
 
-  shouldBecomeAlive(assert, cell(1, 1), world(
+  shouldBecomeAlive(assert, cell(1, 1), world3x3(
     alive(0,0),  dead(0,1), alive(0,2),
      dead(1,0),  dead(1,1),  dead(1,2),
     alive(2,0),  dead(2,1),  dead(2,2)
   ));
 
-  shouldBecomeAlive(assert, cell(1, 1), world(
+  shouldBecomeAlive(assert, cell(1, 1), world3x3(
      dead(0,0),  dead(0,1), alive(0,2),
      dead(1,0),  dead(1,1),  dead(1,2),
     alive(2,0),  dead(2,1), alive(2,2)
   ));
 
-  shouldBecomeAlive(assert, cell(1, 1), world(
+  shouldBecomeAlive(assert, cell(1, 1), world3x3(
      dead(0,0), alive(0,1),  dead(0,2),
     alive(1,0),  dead(1,1), alive(1,2),
      dead(2,0),  dead(2,1),  dead(2,2)
   ));
 
-  shouldBecomeAlive(assert, cell(1, 1), world(
+  shouldBecomeAlive(assert, cell(1, 1), world3x3(
      dead(0,0),  dead(0,1),  dead(0,2),
     alive(1,0),  dead(1,1), alive(1,2),
      dead(2,0), alive(2,1),  dead(2,2)
   ));
 
-  shouldBecomeAlive(assert, cell(1, 1), world(
+  shouldBecomeAlive(assert, cell(1, 1), world3x3(
      dead(0,0), alive(0,1),  dead(0,2),
     alive(1,0),  dead(1,1),  dead(1,2),
      dead(2,0), alive(2,1),  dead(2,2)
   ));
 
-  shouldBecomeAlive(assert, cell(1, 1), world(
+  shouldBecomeAlive(assert, cell(1, 1), world3x3(
      dead(0,0), alive(0,1),  dead(0,2),
      dead(1,0),  dead(1,1), alive(1,2),
      dead(2,0), alive(2,1),  dead(2,2)
