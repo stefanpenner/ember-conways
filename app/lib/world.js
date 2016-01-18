@@ -1,4 +1,13 @@
 import fate, { LIVE } from './fate';
+import Cell from './cell';
+
+export function world(width, height, ..._cells) {
+  let cells = _cells.map((state, index) => {
+    return new Cell(index % width, Math.floor(index / width), state === LIVE);
+  });
+
+  return new World({ width, height, cells });
+}
 
 export default class World {
   constructor({ width, height, cells }) {

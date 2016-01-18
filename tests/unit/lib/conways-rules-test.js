@@ -1,17 +1,8 @@
 import { module, test } from 'qunit';
 // Test Helpers
 import Cell from 'conways/lib/cell';
-import World from 'conways/lib/world';
+import { world } from 'conways/lib/world';
 import fate, { LIVE, DIE as DEAD } from 'conways/lib/fate';
-
-function world(width, height, ..._cells) {
-  let cells = _cells.map((state, index) => {
-    return new Cell(index % width, Math.floor(index / width), state === LIVE);
-  });
-
-  return new World({ width, height, cells });
-}
-
 const world3x3 = world.bind(null, 3, 3);
 const world4x4 = world.bind(null, 4, 4);
 
