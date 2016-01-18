@@ -5,6 +5,23 @@ export default class World {
     this.width = width;
     this.height = height;
     this.cells = cells; // ensure sorted
+
+    this._current = 'a';
+    this._next    = 'b';
+  }
+
+  forEach() {
+    this.cells.forEach(...arguments);
+  }
+
+  advance() {
+    this.forEach(cell => {
+      cell[this._next] = this.willLive(cell);
+    });
+
+    let tmp = this._current;
+    this._current = this._next;
+    this._next = tmp;
   }
 
   getAt(x, y) {
@@ -21,7 +38,7 @@ export default class World {
       return 0;
     }
 
-    return cells[y * width + x].isAlive ? 1 : 0;
+    return cells[y * width + x].isAlive(this._current) ? 1 : 0;
   }
 
   willLive(cell) {
