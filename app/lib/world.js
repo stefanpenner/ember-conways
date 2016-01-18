@@ -2,13 +2,13 @@ import fate, { LIVE, DIE as DEAD } from './fate';
 import Cell from './cell';
 
 export function alive(width, height, ...cells) {
-  var result = new Array(width * height);
+  let result = new Array(width * height);
 
-  for (var i = 0; i < result.length; i++) {
+  for (let i = 0; i < result.length; i++) {
     result[i] = DEAD;
   }
 
-  for (var i = 0; i < cells.length; i++) {
+  for (let i = 0; i < cells.length; i++) {
     let [x,y] = cells[i];
     result[y * width + x] = LIVE;
   }
@@ -34,17 +34,19 @@ export default class World {
     this._next    = 'b';
   }
 
-  forEach() {
-    this.cells.forEach(...arguments);
+  forEach(cb) {
+    for (let i = 0; i < this.cells.length; i++) {
+      cb(this.cells[i], i);
+    }
   }
 
   get length() {
-    return this._current.length;
+    return this.cells.length;
   }
 
   advance() {
     this.forEach(cell => {
-      cell[this._next] = this.willLive(cell);
+      cell._isAlive = cell[this._next] = this.willLive(cell);
     });
 
     let tmp = this._current;
@@ -66,7 +68,7 @@ export default class World {
       return 0;
     }
 
-    return cells[y * width + x].isAlive(this._current) ? 1 : 0;
+    return cells[y * width + x][this._current] ? 1 : 0;
   }
 
   willLive(cell) {

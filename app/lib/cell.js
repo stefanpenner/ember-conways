@@ -3,21 +3,19 @@ export default class Cell {
     this._x = x;
     this._y = y;
 
+    this.key = `${this.x}x${this.y}`;
+    this._isAlive = isAlive;
     this.a = isAlive;
     this.b = false;
   }
 
   get x()       { return this._x; }
   get y()       { return this._y; }
-  isAlive(slot) { return this[slot]; }
+  get isAlive() { return this._isAlive; }
 
   is(other) {
     return this.x === other.x &&
            this.y === other.y;
-  }
-
-  get key() {
-    return `${this.x}x${this.y}`;
   }
 
   toString() {
