@@ -37,5 +37,11 @@
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
     "ember-resolver": "^2.0.3"
+  },
+  "dependencies": {
+    "broccoli-babel-transpiler": "^5.5.0",
+    "broccoli-concat": "^2.1.0",
+    "broccoli-stew": "^1.2.0",
+    "loader.js": "^3.6.0"
   }
 }
