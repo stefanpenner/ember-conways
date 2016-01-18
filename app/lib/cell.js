@@ -5,13 +5,14 @@ export default class Cell {
 
     this.key = `${this.x}x${this.y}`;
     this._isAlive = isAlive;
+    this.isAlive = isAlive;
     this.a = isAlive;
     this.b = false;
   }
 
   get x()       { return this._x; }
   get y()       { return this._y; }
-  get isAlive() { return this._isAlive; }
+  //get isAlive() { return this._isAlive; }
 
   is(other) {
     return this.x === other.x &&

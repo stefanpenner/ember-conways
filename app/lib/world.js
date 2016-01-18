@@ -1,7 +1,7 @@
 import fate, { LIVE, DIE as DEAD } from './fate';
 import Cell from './cell';
 
-export function alive(width, height, ...cells) {
+export function alive(width, height, cells) {
   let result = new Array(width * height);
 
   for (let i = 0; i < result.length; i++) {
@@ -16,7 +16,7 @@ export function alive(width, height, ...cells) {
   return result;
 }
 
-export function world(width, height, ..._cells) {
+export function world(width, height, _cells) {
   let cells = _cells.map((state, index) => {
     return new Cell(index % width, Math.floor(index / width), state === LIVE);
   });
@@ -46,7 +46,7 @@ export default class World {
 
   advance() {
     this.forEach(cell => {
-      cell._isAlive = cell[this._next] = this.willLive(cell);
+      Ember.set(cell, 'isAlive', cell[this._next] = this.willLive(cell));
     });
 
     let tmp = this._current;

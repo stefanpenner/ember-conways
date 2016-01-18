@@ -1,0 +1,4 @@
+{{#each model key="key" as |cell|}}
+  <organism-cell class="{{if cell.isAlive 'alive'}}"
+                 style="top: {{{cell.y}}}0px; left: {{{cell.x}}}0px;"></organism-cell>
+{{/each}}
